@@ -1,0 +1,11 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+terraform.tfvars
+!terraform.tfvars.example
+
+# Word lock files and local draft
+~$*
+docs/Deployment-Guide-withchanges.docx

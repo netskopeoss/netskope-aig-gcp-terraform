@@ -1,7 +1,6 @@
 variable "project_id" {
-  description = "GCP project to deploy into."
+  description = "GCP project to deploy into. Required."
   type        = string
-  default     = "netskope-gcp"
 }
 
 variable "region" {
@@ -107,9 +106,9 @@ variable "ssh_public_key" {
 # digits, dashes, and underscores, so the original values are mapped here.
 
 variable "owner" {
-  description = "Label: owner. Original value 'ta:gjenkins@netskope.com' is not a valid label value."
+  description = "Label: owner. Use your username. Label values allow only lowercase letters, digits, dashes, and underscores."
   type        = string
-  default     = "gjenkins"
+  default     = "your-username"
 
   validation {
     condition     = can(regex("^[a-z0-9_-]{1,63}$", var.owner))

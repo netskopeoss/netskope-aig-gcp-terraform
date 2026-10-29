@@ -35,11 +35,10 @@ Not included yet: DLP On Demand (waiting on the GCP image) and the optional TPU 
 
 ### APIs
 
-The following APIs must be enabled on the project. In `netskope-gcp` they were already enabled
-when this guide was written:
+The following APIs must be enabled on the project. Run this once on a new project:
 
 ```bash
-gcloud services enable compute.googleapis.com iam.googleapis.com logging.googleapis.com monitoring.googleapis.com cloudresourcemanager.googleapis.com --project=netskope-gcp
+gcloud services enable compute.googleapis.com iam.googleapis.com logging.googleapis.com monitoring.googleapis.com cloudresourcemanager.googleapis.com --project=your-project-id
 ```
 
 No other APIs are required for the AI Gateway tier. Secret Manager, Cloud Functions, and Eventarc
@@ -61,7 +60,7 @@ unless you have a reason to change them.
 
 ```bash
 gcloud auth application-default login
-gcloud config set project netskope-gcp
+gcloud config set project your-project-id
 ```
 
 ### 3. Initialize and plan
@@ -122,7 +121,7 @@ terraform output list_instances_command
 Run the printed command, then SSH using the INSTANCE_NAME and ZONE it lists:
 
 ```bash
-gcloud compute ssh nsadmin@INSTANCE_NAME --zone=ZONE --project=netskope-gcp --tunnel-through-iap
+gcloud compute ssh nsadmin@INSTANCE_NAME --zone=ZONE --project=your-project-id --tunnel-through-iap
 ```
 
 Running `ssh` with no command opens the interactive AIG-CLI console.

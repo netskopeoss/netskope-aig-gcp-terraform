@@ -27,7 +27,7 @@ included but not fully tested; see section 8 of the guide.
 
 ## Prerequisites
 
-- [ ] Terraform 1.5 or later (tested with 1.14.8)
+- [ ] Terraform 1.14 or later (tested with 1.14.8)
 - [ ] Google Cloud CLI (`gcloud`) signed in as an account with Owner or Editor on the project
 - [ ] Application Default Credentials for Terraform (see step 2 below)
 - [ ] Access to the AI Gateway image in the project (`ai-gateway-v1-9-63` by default)

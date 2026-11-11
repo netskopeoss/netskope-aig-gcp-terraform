@@ -1,4 +1,4 @@
-# Self-signed certificate for the AI Gateway load balancer. Lab only: browsers and
+# Self-signed certificate for the AI Gateway load balancer. Browsers and
 # API clients must trust this certificate or skip verification. For a real
 # deployment, replace this with a Certificate Manager certificate.
 
@@ -12,7 +12,7 @@ resource "tls_self_signed_cert" "aig" {
 
   subject {
     common_name  = var.aig_hostname
-    organization = "Netskope lab"
+    organization = "Netskope"
   }
 
   dns_names             = [var.aig_hostname]

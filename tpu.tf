@@ -49,7 +49,7 @@ variable "tpu_quota_contact_email" {
 variable "tpu_quota_justification" {
   description = "Justification text for the quota request."
   type        = string
-  default     = "Lab evaluation of AI Guardrails on Vertex AI TPU v5e in us-east1: one endpoint replica, undeployed and deleted after testing."
+  default     = "Deployment of AI Guardrails on Vertex AI TPU v5e in us-east1: one endpoint replica."
 }
 
 locals {

@@ -4,7 +4,7 @@ output "aig_load_balancer_ip" {
 }
 
 output "aig_url" {
-  description = "HTTPS endpoint (self-signed certificate in this lab)."
+  description = "HTTPS endpoint (self-signed certificate)."
   value       = "https://${google_compute_global_address.aig.address}"
 }
 

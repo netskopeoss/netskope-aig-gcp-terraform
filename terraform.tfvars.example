@@ -4,7 +4,7 @@ project_id = "your-project-id"
 region     = "us-east1"
 zones      = ["us-east1-b", "us-east1-c"]
 
-name_prefix = "aigw-lab"
+name_prefix = "aigw"
 
 # Boot image: set this to the project and image you can see.
 # aig_image = "projects/your-image-project-id/global/images/ai-gateway-v1-9-63"

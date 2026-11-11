@@ -1,14 +1,15 @@
-# Netskope AI Gateway on GCP: lab deployment (Terraform)
+# Netskope AI Gateway on GCP: Terraform deployment
 
-This Terraform deploys a Netskope AI Gateway (AIG) on Google Cloud for lab use. It creates a
+This Terraform deploys a Netskope AI Gateway (AIG) on Google Cloud. It creates a
 VPC, a managed instance group of AI Gateway VMs with no external IPs, a global external HTTPS
 load balancer, and an autoscaler that only scales out. Enrollment is a manual step with
 AIG-CLI, as in the AWS reference.
 
-Not included yet: DLP On Demand (waiting on the GCP image) and the optional TPU tier.
+Not included yet: DLP On Demand (waiting on the GCP image). The optional TPU guardrails tier is
+included but not fully tested; see section 8 of the guide.
 
-> **Lab only.** The self-signed certificate, the placeholder hostname, and the defaults are for
-> testing. Run `terraform destroy` when you finish.
+> **Before production:** replace the self-signed certificate, set your own hostname and labels,
+> and review the defaults. See the guide for the steps.
 
 ## What gets created
 
@@ -18,7 +19,7 @@ Not included yet: DLP On Demand (waiting on the GCP image) and the optional TPU 
 | Proxy-only subnet (10.10.2.0/23) | Required by the global external Application LB. |
 | Cloud Router + Cloud NAT | Outbound access to Netskope and LLM providers. |
 | Firewall rules | LB and health checks to tcp/443 on `aig-gateway` tagged VMs. IAP SSH to tcp/22. |
-| Service account `aigw-lab-aig` | Logging and metrics writer only. |
+| Service account `aigw-aig` | Logging and metrics writer only. |
 | Instance template + regional MIG | `n2-standard-16`, 400 GB pd-balanced boot disk, two zones. |
 | Autoscaler | Min 1, max 4, CPU target 70%, scale-out only (`ONLY_SCALE_OUT`). |
 | HTTPS health check | `GET /` on 443, healthy on HTTP 200 only. Auto-heal enabled. |
@@ -49,7 +50,7 @@ are not used here, because enrollment is manual.
 ### 1. Configure variables
 
 ```bash
-cd aig-gcp-lab
+cd netskope-aig-gcp-terraform
 cp terraform.tfvars.example terraform.tfvars
 ```
 
@@ -95,7 +96,7 @@ just before you start.
 1. Sign in to your Netskope tenant.
 2. Go to **Settings > Security Cloud Platform > VM Onboarding**.
 3. Click **Deploy VM**, then **Register VM**.
-4. **Step 1 (Configure):** set **VM Name (AI Gateway)** to `aigw-lab`. Set **Hostname** to the
+4. **Step 1 (Configure):** set **VM Name (AI Gateway)** to `aigw`. Set **Hostname** to the
    value of `aig_hostname` in `terraform.tfvars` (default `aig.aigw.internal`). Choose the
    HTTPS and HTTP protocol and port settings.
 5. Click **Continue**. In **Step 2 (Register)**, click **Copy** or **Download** to save the
@@ -108,7 +109,7 @@ just before you start.
 terraform output aig_load_balancer_ip
 ```
 
-Create a DNS A record for `aig_hostname` that points to that IP. For a quick lab test without
+Create a DNS A record for `aig_hostname` that points to that IP. For a quick test without
 DNS, add a line to your hosts file. Clients must trust the self-signed certificate
 (`terraform output -raw aig_certificate_pem`) or skip verification.
 
@@ -141,7 +142,7 @@ Running `ssh` with no command opens the interactive AIG-CLI console.
 
 - In the CLI, check that enrollment succeeded.
 - In the portal, go to **Settings > Security Cloud Platform > VM Onboarding**. A green icon
-  next to `aigw-lab` means registration succeeded.
+  next to `aigw` means registration succeeded.
 - Once the wizard finishes, check the load balancer: `terraform output aig_url`, then check that
   `https://<aig_load_balancer_ip>/` responds. Expect HTTP 200 for the health check to pass.
 
@@ -158,7 +159,7 @@ terraform destroy
 ```
 
 This deletes everything Terraform created. Afterwards, check **VM Onboarding** in the portal and
-remove the `aigw-lab` entry if it remains. The docs do not say whether it is removed
+remove the `aigw` entry if it remains. The docs do not say whether it is removed
 automatically.
 
 ## Known gaps and risks
@@ -172,7 +173,7 @@ automatically.
 - **Portal SSL certificate step.** After enrollment, VM Onboarding shows "Create certificate to
   finish setup". Sign the CSR from the AIG-CLI certificate wizard and install the certificate, or
   the gateway does not serve traffic.
-- **Self-signed certificate.** Good for a lab only.
+- **Self-signed certificate.** Replace it for production; see the guide.
 - **Image choice.** The default `aig_image` is a placeholder (`your-image-project-id`). Set it to
   the project and image you can see, for example `ai-gateway-v1-9-63`, and confirm it matches the
   Marketplace listing you subscribed to.
@@ -188,7 +189,7 @@ automatically.
 | `versions.tf` | Terraform and provider versions |
 | `providers.tf` | Google provider, default labels |
 | `variables.tf` | All inputs with defaults and validation |
-| `locals.tf` | Label map (from Tags.json) |
+| `locals.tf` | Label map |
 | `network.tf` | VPC, subnets, NAT, firewall rules |
 | `certificate.tf` | Self-signed certificate for the load balancer |
 | `gateway.tf` | Service account, instance template, MIG, autoscaler, load balancer |

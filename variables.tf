@@ -18,7 +18,7 @@ variable "zones" {
 variable "name_prefix" {
   description = "Prefix for every resource name. Keep it short (lowercase letters, digits, dashes)."
   type        = string
-  default     = "aigw-lab"
+  default     = "aigw"
 
   validation {
     condition     = can(regex("^[a-z][a-z0-9-]{0,20}$", var.name_prefix))
@@ -86,7 +86,7 @@ variable "aig_hostname" {
   description = <<-EOT
     Hostname for the AI Gateway. The same name is used in the portal registration token
     (VM Onboarding > Deploy VM > Register VM) and in the self-signed certificate CN/SAN.
-    It must resolve to the load balancer IP for clients. The default is a lab placeholder.
+    It must resolve to the load balancer IP for clients. The default is a placeholder.
   EOT
   type        = string
   default     = "aig.aigw.internal"
@@ -136,7 +136,7 @@ variable "cost_center" {
 variable "stage" {
   description = "Label: stage."
   type        = string
-  default     = "lab"
+  default     = "prod"
 }
 
 variable "sensitivity" {

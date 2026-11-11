@@ -173,9 +173,9 @@ automatically.
   finish setup". Sign the CSR from the AIG-CLI certificate wizard and install the certificate, or
   the gateway does not serve traffic.
 - **Self-signed certificate.** Good for a lab only.
-- **Image choice.** The default `ai-gateway-v1-9-63` is the newest non-debug image in
-  `netskope-gcp`. Confirm it matches the Marketplace listing you subscribed to, and override
-  `aig_image` if it does not.
+- **Image choice.** The default `aig_image` is a placeholder (`your-image-project-id`). Set it to
+  the project and image you can see, for example `ai-gateway-v1-9-63`, and confirm it matches the
+  Marketplace listing you subscribed to.
 - **No automatic enrollment.** The AWS reference automates enrollment through Secrets Manager. The
   GCP docs describe only manual enrollment, so this template does too.
 - **Update policy.** Changing the template does not roll existing instances, matching the AWS

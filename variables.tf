@@ -28,12 +28,12 @@ variable "name_prefix" {
 
 variable "aig_image" {
   description = <<-EOT
-    Self link of the AI Gateway boot image. The default is the newest non-debug image
-    in netskope-gcp (ai-gateway-v1-9-63). Override with another image self link if the
-    Marketplace listing you subscribed to resolves to a different image.
+    Self link of the AI Gateway boot image, for example
+    projects/<image-project>/global/images/ai-gateway-v1-9-63. Set it to the project that
+    holds the image you can see, or to the Marketplace image you subscribed to.
   EOT
   type        = string
-  default     = "projects/netskope-gcp/global/images/ai-gateway-v1-9-63"
+  default     = "projects/your-image-project-id/global/images/ai-gateway-v1-9-63"
 }
 
 variable "machine_type" {

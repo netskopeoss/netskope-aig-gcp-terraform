@@ -6,8 +6,8 @@ zones      = ["us-east1-b", "us-east1-c"]
 
 name_prefix = "aigw-lab"
 
-# Boot image: the default is the newest non-debug AI Gateway image in netskope-gcp.
-# aig_image = "projects/netskope-gcp/global/images/ai-gateway-v1-9-63"
+# Boot image: set this to the project and image you can see.
+# aig_image = "projects/your-image-project-id/global/images/ai-gateway-v1-9-63"
 
 # Hostname used in the portal registration token and the self-signed certificate.
 aig_hostname = "aig.aigw.internal"

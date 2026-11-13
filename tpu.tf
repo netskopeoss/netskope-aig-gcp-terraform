@@ -35,7 +35,7 @@ variable "tpu_quota_id" {
 }
 
 variable "tpu_quota_preferred_cores" {
-  description = "Requested TPU v5e cores in the region. One ct5lp-hightpu-4t replica uses 4 cores."
+  description = "Requested TPU v5e cores in the region. One ct5lp-hightpu-1t replica uses 1 core."
   type        = number
   default     = 8
 }
@@ -200,7 +200,7 @@ output "tpu_endpoint_name" {
 
 output "tpu_deploy_model_command" {
   description = "Run after the TPU quota is approved. Deploys the uploaded model to the endpoint."
-  value       = var.tpu_model_id == "" ? "Set tpu_model_id first (gcloud ai models list --region=${var.region})." : "gcloud ai endpoints deploy-model ENDPOINT_ID --region=${var.region} --model=${var.tpu_model_id} --display-name=aisecurity-tpu --machine-type=ct5lp-hightpu-4t --min-replica-count=1 --max-replica-count=1 --project=${var.project_id}"
+  value       = var.tpu_model_id == "" ? "Set tpu_model_id first (gcloud ai models list --region=${var.region})." : "gcloud ai endpoints deploy-model ENDPOINT_ID --region=${var.region} --model=${var.tpu_model_id} --display-name=aisecurity-tpu --machine-type=ct5lp-hightpu-1t --min-replica-count=1 --max-replica-count=1 --project=${var.project_id}"
 }
 
 output "tpu_api_gateway_note" {
